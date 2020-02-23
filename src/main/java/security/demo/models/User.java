@@ -21,17 +21,17 @@ public class User {
     private Long id;
 
     @Column
-    private String userName;
+    private String username;
 
     @Column
     @Email
     private String email;
 
-    @Column
+    @Column(name = "password")
     private String password;
 
     @Column
-    private boolean isActive = false;
+    private boolean isActive = true;
 
     @Column
     private String roles;

@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 public class SignUpRequest {
     @NotBlank
-    private String fullName;
+    private String username;
 
     @NotBlank
     @Email
