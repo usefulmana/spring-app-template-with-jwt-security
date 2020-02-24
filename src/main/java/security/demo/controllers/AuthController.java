@@ -22,7 +22,11 @@ import security.demo.responses.SignUpRequest;
 import security.demo.services.EmailVerificationService;
 import security.demo.services.MyUserDetailsService;
 import security.demo.utils.JwtUtil;
+
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.nio.file.attribute.UserPrincipal;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -90,15 +94,23 @@ public class AuthController {
         final String jwt = jwtUtil.generateToken(userDetails);
 
         // Uncomment to include email verification
-        emailVerificationService.sendVerificationEmail(user, null);
+//        emailVerificationService.sendVerificationEmail(user, null);
 
         return ResponseEntity.ok(new LoginResponse(jwt,true, "Successfully Registered!"));
     }
-// TODO Implement Current User Looking Into UserPrincipal stuff
-//    @RequestMapping(value = "/resend", method = {RequestMethod.GET, RequestMethod.POST})
-//    public ResponseEntity<?> resendToken(UserPrincipal userPrincipal){
-//        User user = userRepository.findById(userPrincipal.getName())
-//    }
+ // TODO Implement Current User Looking Into UserPrincipal stuff
+    @RequestMapping(value = "/resend", method = {RequestMethod.GET, RequestMethod.POST})
+    public ResponseEntity<?> resendToken(Principal principal) throws IOException, MessagingException {
+        Optional<User> optionalUser = userRepository.findByUsername(principal.getName());
+
+        if (optionalUser.isEmpty()){
+            throw new BadRequestException("User Do Not Exist!");
+        }
+
+        User user = optionalUser.get();
+        emailVerificationService.resendToken(user);
+        return ResponseEntity.ok(new GenericResponse(true, "Successfully Resent!"));
+    }
 
     @RequestMapping(value = "/confirm", method = {RequestMethod.GET, RequestMethod.POST})
     public ResponseEntity<?> verifyToken(@RequestParam(value = "token") String token){
