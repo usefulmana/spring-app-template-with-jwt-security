@@ -34,6 +34,9 @@ public class User {
     private boolean isActive = true;
 
     @Column
+    private boolean isVerified = false;
+
+    @Column
     private String roles;
 
     @Column

@@ -6,12 +6,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ApiResponse {
+public class LoginResponse {
     private boolean success;
     private String message;
     private final String jwt;
 
-    public ApiResponse(String jwt, boolean success, String message) {
+    public LoginResponse(String jwt, boolean success, String message) {
         this.success = success;
         this.jwt = jwt;
         this.message = message;

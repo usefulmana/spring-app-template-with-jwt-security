@@ -12,7 +12,7 @@ import java.util.UUID;
 @Table(name = "validation_tokens")
 @Data
 @NoArgsConstructor
-public class ValidationToken {
+public class VerificationToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +35,7 @@ public class ValidationToken {
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
-    public ValidationToken(User user) {
+    public VerificationToken(User user) {
         this.user = user;
         this.token = UUID.randomUUID().toString();
         this.issuedDateTime = LocalDateTime.now(ZoneOffset.UTC);
